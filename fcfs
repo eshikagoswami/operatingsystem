@@ -1,0 +1,69 @@
+#include<unistd.h>
+#include <stdio.h>
+
+int main()
+{
+    int n;
+    int temp=0;
+    int tbt;
+    printf("enter the no of process:");
+    scanf("%d",&n);
+    struct process{
+        int at;
+        int bt;
+        int pid;
+        int ct;
+        int tat;
+        int wt;
+        
+    };
+    struct process p[n];
+    printf("enter the pid:");
+    for(int i=0;i<n;i++){
+    scanf("%d",&p[i].pid);}
+    printf("enter the at:");
+    for(int i=0;i<n;i++){
+    scanf("%d",&p[i].at);}
+    printf("enter the bt:");
+    for(int i=0;i<n;i++){
+    scanf("%d",&p[i].bt);}
+    
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(p[i].at>p[j].at){
+                temp=p[i].at;
+                p[i].at=p[j].at;
+                p[j].at=temp;
+            
+                temp=p[i].pid;
+                p[i].pid=p[j].pid;
+                p[j].pid=temp;
+        
+                temp=p[i].bt;
+                p[i].bt=p[j].bt;
+                p[j].bt=temp;
+        }
+    }}
+    p[0].ct=p[0].at+p[0].bt;
+    for(int i=1;i<n;i++){
+            if(p[i].at>p[i-1].ct){
+                p[i].ct=p[i].bt+p[i].at;
+            }else{
+                p[i].ct=p[i-1].ct+p[i].bt;
+            }
+        }
+        for(int i=0;i<n;i++){
+            p[i].tat=p[i].ct-p[i].at;
+            p[i].wt=p[i].tat-p[i].bt;
+            tbt=tbt+p[i].bt;
+        }
+        printf("ct   tat   wt\n");
+        float cpu;
+        for(int i=0;i<n;i++){
+            printf(" %d   %d    %d\n",p[i].ct,p[i].tat,p[i].wt);
+             cpu=(tbt*100)/p[n-1].ct;
+        }
+       
+     printf("cpu :%f",cpu);
+        return 0;
+    }
