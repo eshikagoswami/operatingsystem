@@ -1,0 +1,78 @@
+#include<math.h>
+#include<unistd.h>
+#include <stdio.h>
+ struct process{
+	int pid;
+	int at;
+	int bt;
+	int rt;
+	int ct;
+	int tat;
+	int wt;
+};
+int main()
+{
+     int n,i,j,twt,ttat,atat,awt,cs=-1;//no.of process, iterations , total and average tat and wt , content switch cause onfirst process entry it will read as context switch
+	int previous = -1;//for counting change in process 
+	printf("enter no. of processes to be scheduled using SRTF\n");
+	scanf("%d",&n);
+	struct process p[n];
+	for(i=0;i<n;i++)
+	{
+		printf("enter pid of each process\n");
+		scanf("%d",&p[i].pid);
+	}
+	for(i=0;i<n;i++)
+	{
+		printf("enter arrival time of processes\n");
+		scanf("%d",&p[i].at);
+	}
+	for(i=0;i<n;i++)
+	{
+		printf("enter burst time of processes\n");
+		scanf("%d",&p[i].bt);
+	}
+	for(i=0;i<n;i++)
+	{
+		p[i].rt=p[i].bt;
+	}
+
+int time=0;
+int completed=0;
+while(completed<n)
+{
+    int mrt=99999;
+    int shortest=-1;
+    for(int i=0;i<n;i++){
+        if(p[i].rt>0&&p[i].rt<mrt&&p[i].at<=time){
+            mrt=p[i].rt;
+            shortest=i;
+        }}
+        if(shortest==-1){
+            time++;
+            continue;
+        }
+        if(previous!=shortest){
+            cs++;
+            previous=shortest;
+        }
+        p[shortest].rt--;
+        time++;
+        if(p[shortest].rt==0){
+            completed++;
+            p[shortest].ct=time;
+        } }
+        for(int i=0;i<n;i++){
+            p[i].tat=p[i].ct-p[i].at;
+            p[i].wt=p[i].tat-p[i].bt;
+        }
+        printf("at   bt   ct    tat   wt\n");
+        for(int i=0;i<n;i++){
+            printf("%d    %d    %d   %d  %d\n",p[i].at,p[i].bt,p[i].ct,p[i].tat,p[i].wt);
+        }
+    
+
+    return 0;}
+
+
+
